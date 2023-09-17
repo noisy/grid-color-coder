@@ -11,7 +11,7 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 50px repeat(11, 50px);
+    grid-template-columns: 50px repeat(var(--grid-size-y), 50px);
     gap: 2px;
     margin-top: 20px;
     border: 1px solid #ccc;

@@ -10,29 +10,54 @@
 
 <body>
   <div id="app">
-    <div class="grid-container">
-      <div class="grid-cell letters"></div>
-      <div class="grid-cell number" v-for="i in 11" :key="i">{{ i }}</div>
+    <div v-if="!initialized">
+      <div>
+        <label>
+          Rozmiar siatki:
+          <input type="number" v-model.number="gridSizeX" min="1" max="20"> x
+          <input type="number" v-model.number="gridSizeY" min="1" max="20">
+        </label>
+      </div>
 
-      <div class="grid-row" v-for="(letter, index) in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']"
-        :key="letter">
-        <div class="grid-cell letters">{{ letter }}</div>
-        <div class="grid-cell cell" v-for="i in 11" :key="i" :data-x="i" :data-y="index+1"
-          :style="{ backgroundColor: getColor(i, index+1) }" @click="colorCell(i, index+1)"></div>
+      <div>
+        <label>
+          Dodaj kolor:
+          <input type="color" v-model="newColor">
+          <button @click="addColor">Dodaj</button>
+        </label>
+      </div>
+
+      <div>
+        <button @click="initializeGrid">Zainicjować Siatkę</button>
       </div>
     </div>
 
-    <div class="controls">
-      <div class="color-section">
-        <div class="color-box" v-for="color in colors" :key="color"
-          :style="{ backgroundColor: color, border: color === selectedColor ? '2px solid black' : '3px solid #ccc' }"
-          @click="selectColor(color)"></div>
+    <div v-else>
+
+      <div class="grid-container">
+        <div class="grid-cell letters"></div>
+        <div class="grid-cell number" v-for="i in gridSizeY" :key="i">{{ i }}</div>
+
+        <div class="grid-row" v-for="(letter, index) in getLetters" :key="letter">
+          <div class="grid-cell letters">{{ letter }}</div>
+          <div class="grid-cell cell" v-for="i in gridSizeY" :key="i" :data-x="index+1" :data-y="i"
+            :style="{ backgroundColor: getColor(index+1, i) }" @click="colorCell(index+1, i)"></div>
+        </div>
 
       </div>
 
-      <div class="coordinate-section">
-        <input type="text" v-model="coordinateInput" placeholder="Wprowadź koordynaty (np. A11)"
-          @keyup.enter="applyCoordinate">
+      <div class="controls">
+        <div class="color-section">
+          <div class="color-box" v-for="color in colors" :key="color"
+            :style="{ backgroundColor: color, border: color === selectedColor ? '2px solid black' : '3px solid #ccc' }"
+            @click="selectColor(color)"></div>
+
+        </div>
+
+        <div class="coordinate-section">
+          <input type="text" v-model="coordinateInput" placeholder="Wprowadź koordynaty (np. A11)"
+            @keyup.enter="applyCoordinate">
+        </div>
       </div>
     </div>
   </div>
