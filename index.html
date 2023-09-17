@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Wizualizacja Koordynatów</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="grid-container">
+      <div class="grid-cell letters"></div>
+      <div class="grid-cell number" v-for="i in 11" :key="i">{{ i }}</div>
+
+      <div class="grid-row" v-for="(letter, index) in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']"
+        :key="letter">
+        <div class="grid-cell letters">{{ letter }}</div>
+        <div class="grid-cell cell" v-for="i in 11" :key="i" :data-x="i" :data-y="index+1"
+          :style="{ backgroundColor: getColor(i, index+1) }" @click="colorCell(i, index+1)"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="color-section">
+        <div class="color-box" v-for="color in colors" :key="color"
+          :style="{ backgroundColor: color, border: color === selectedColor ? '2px solid black' : '3px solid #ccc' }"
+          @click="selectColor(color)"></div>
+
+      </div>
+
+      <div class="coordinate-section">
+        <input type="text" v-model="coordinateInput" placeholder="Wprowadź koordynaty (np. A11)"
+          @keyup.enter="applyCoordinate">
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
