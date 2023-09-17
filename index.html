@@ -10,19 +10,27 @@
 
 <body>
   <div id="app">
-    <div v-if="!initialized">
+    <div v-if="!initialized" class="initial-setup">
       <div>
         <label>
           Rozmiar siatki:
-          <input type="number" v-model.number="gridSizeX" min="1" max="20"> x
-          <input type="number" v-model.number="gridSizeY" min="1" max="20">
+          <input type="number" v-model.number="gridSizeX" min="1" max="20" class="margin-input"> x
+          <input type="number" v-model.number="gridSizeY" min="1" max="20" class="margin-input">
         </label>
+      </div>
+
+      <div>
+        <h3>Dodane Kolory:</h3>
+        <div v-for="(color, index) in colors" :key="color" class="color-item">
+          <input type="color" v-model="colors[index]" @change="updateColor(index)" class="margin-input">
+          <button @click="removeColor(index)">Usuń</button>
+        </div>
       </div>
 
       <div>
         <label>
           Dodaj kolor:
-          <input type="color" v-model="newColor">
+          <input type="color" v-model="newColor" class="margin-input">
           <button @click="addColor">Dodaj</button>
         </label>
       </div>
@@ -31,7 +39,6 @@
         <button @click="initializeGrid">Zainicjować Siatkę</button>
       </div>
     </div>
-
     <div v-else>
 
       <div class="grid-container" :style="gridStyles">

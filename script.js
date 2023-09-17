@@ -29,10 +29,16 @@ new Vue({
         getColor(x, y) {
             return this.grid[y - 1][x - 1];
         },
+        updateColor(index) {
+            this.$set(this.colors, index, this.colors[index]);
+        },
+        removeColor(index) {
+            this.colors.splice(index, 1);
+        },
         applyCoordinate() {
             const letter = this.coordinateInput.charAt(0).toUpperCase();
             const number = parseInt(this.coordinateInput.slice(1), 10);
-            const y = this.getLetters().indexOf(letter) + 1;
+            const y = this.getLetters.indexOf(letter) + 1;
             const x = number;
             this.colorCell(x, y);
         },
