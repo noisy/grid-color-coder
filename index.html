@@ -40,7 +40,9 @@
       </div>
     </div>
     <div v-else>
-
+      <div class="reset-section">
+        <button @click="resetGrid">Wyczyść siatkę</button>
+      </div>
       <div class="grid-container" :style="gridStyles">
         <div class="grid-cell letters"></div>
         <div class="grid-cell number" v-for="i in gridSizeX" :key="i">{{ i }}</div>
@@ -64,6 +66,16 @@
         <div class="coordinate-section">
           <input type="text" v-model="coordinateInput" placeholder="Wprowadź koordynaty (np. A11)"
             @keyup.enter="applyCoordinate">
+        </div>
+      </div>
+
+      <div class="encoding-section">
+        <h2>KODOWANIE</h2>
+        <div v-for="color in usedColors" :key="color.code" v-if="color.coordinates.length">
+          <div :style="{ backgroundColor: color.code }" class="color-box"></div>
+          <div class="coordinates-list">
+            {{ color.coordinates.join(', ') }}
+          </div>
         </div>
       </div>
     </div>

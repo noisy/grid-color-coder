@@ -140,3 +140,23 @@ input[type="color"] {
 #app>div:first-child {
     margin-bottom: 20px;
 }
+
+.encoding-section {
+    margin-top: 20px;
+}
+
+.encoding-section h2 {
+    margin-bottom: 10px;
+}
+
+.color-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.coordinates-list {
+    display: inline-block;
+}

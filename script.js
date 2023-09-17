@@ -5,7 +5,7 @@ new Vue({
         gridSizeX: 11,
         gridSizeY: 11,
         newColor: '#000000',
-        colors: ['#FFFFFF'],
+        colors: ['#FFFFFF', "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000"],
         selectedColor: '#FFFFFF',
         coordinateInput: '',
         grid: Array(11).fill().map(() => Array(11).fill(''))
@@ -42,6 +42,10 @@ new Vue({
             const x = number;
             this.colorCell(x, y);
         },
+        resetGrid() {
+            this.grid = Array(this.gridSizeY).fill().map(() => Array(this.gridSizeX).fill(''));
+            this.coordinateInput = '';
+        },
     },
     computed: {
         getLetters() {
@@ -53,6 +57,29 @@ new Vue({
                 '--grid-size-y': this.gridSizeY,
                 'grid-template-columns': `50px repeat(${this.gridSizeX}, 50px)`,
             };
-        }
+        },
+        usedColors() {
+            let colorMapping = {};
+
+            this.grid.forEach((row, x) => {
+                row.forEach((color, y) => {
+                    if (color) {
+                        const coordinate = `${String.fromCharCode(65 + x)}${y + 1}`;
+                        if (!colorMapping[color]) {
+                            colorMapping[color] = [coordinate];
+                        } else {
+                            colorMapping[color].push(coordinate);
+                        }
+                    }
+                });
+            });
+
+            return Object.entries(colorMapping).map(([color, coordinates]) => {
+                return {
+                    code: color,
+                    coordinates: coordinates.sort(),
+                };
+            });
+        },
     }
 });
