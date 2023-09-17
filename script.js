@@ -17,40 +17,36 @@ new Vue({
             }
         },
         initializeGrid() {
+            this.grid = Array(this.gridSizeY).fill().map(() => Array(this.gridSizeX).fill(''));
             this.initialized = true;
         },
         selectColor(color) {
             this.selectedColor = color;
         },
         colorCell(x, y) {
-            this.grid[x-1][y-1] = this.selectedColor;
+            this.$set(this.grid[y - 1], x - 1, this.selectedColor);
         },
         getColor(x, y) {
-            return this.grid[x-1][y-1];
+            return this.grid[y - 1][x - 1];
         },
         applyCoordinate() {
-            const input = this.coordinateInput.toUpperCase();
-            const match = input.match(/^([A-K])([1-9]|10|11)$/);
-            if (match) {
-                const y = match[1].charCodeAt(0) - 'A'.charCodeAt(0) + 1;
-                const x = parseInt(match[2], 10);
-                this.colorCell(x, y);
-                this.coordinateInput = '';
-            }
-        }
+            const letter = this.coordinateInput.charAt(0).toUpperCase();
+            const number = parseInt(this.coordinateInput.slice(1), 10);
+            const y = this.getLetters().indexOf(letter) + 1;
+            const x = number;
+            this.colorCell(x, y);
+        },
     },
     computed: {
         getLetters() {
-            let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return letters.substring(0, this.gridSizeX).split('');
+            return Array.from({ length: this.gridSizeY }, (_, i) => String.fromCharCode(65 + i));
+        },
+        gridStyles() {
+            return {
+                '--grid-size-x': this.gridSizeX,
+                '--grid-size-y': this.gridSizeY,
+                'grid-template-columns': `50px repeat(${this.gridSizeX}, 50px)`,
+            };
         }
-    },
-    watch: {
-        gridSizeY(newVal) {
-            document.documentElement.style.setProperty('--grid-size-y', newVal);
-        }
-    },
-    created() {
-        document.documentElement.style.setProperty('--grid-size-y', this.gridSizeY);
     }
 });

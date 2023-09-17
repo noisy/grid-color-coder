@@ -34,14 +34,14 @@
 
     <div v-else>
 
-      <div class="grid-container">
+      <div class="grid-container" :style="gridStyles">
         <div class="grid-cell letters"></div>
-        <div class="grid-cell number" v-for="i in gridSizeY" :key="i">{{ i }}</div>
+        <div class="grid-cell number" v-for="i in gridSizeX" :key="i">{{ i }}</div>
 
-        <div class="grid-row" v-for="(letter, index) in getLetters" :key="letter">
+        <div v-for="(letter, index) in getLetters" :key="letter" class="grid-row">
           <div class="grid-cell letters">{{ letter }}</div>
-          <div class="grid-cell cell" v-for="i in gridSizeY" :key="i" :data-x="index+1" :data-y="i"
-            :style="{ backgroundColor: getColor(index+1, i) }" @click="colorCell(index+1, i)"></div>
+          <div class="grid-cell cell" v-for="i in gridSizeX" :key="i" :data-x="i" :data-y="index+1"
+            :style="{ backgroundColor: getColor(i, index+1) }" @click="colorCell(i, index+1)"></div>
         </div>
 
       </div>
